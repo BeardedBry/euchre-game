@@ -1,0 +1,30 @@
+#board {
+    height: 10rem;
+}
+
+#main {
+    text-align: center;
+}
+
+#player1 {
+    display: flex;
+    justify-content: center;
+    /*flex-wrap: wrap;*/
+}
+
+.card {
+    display: block;
+    width: 8rem;
+    height: 15rem;
+    margin: 1rem;
+    background-color: #e7e7e7;
+    text-align: center;
+}
+
+.selected {
+    border: 2px solid #0ac6ff;
+}
+
+button#play {
+    padding: 1rem;
+}
