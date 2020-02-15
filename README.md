@@ -1,1 +1,1 @@
-# euchre-game
+# Euchre

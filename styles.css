@@ -1,9 +1,49 @@
+body, html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#game {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
 #board {
+    position: relative;
+    flex: 1 0 auto;
     height: 10rem;
 }
 
+#player2 {
+    background-color: azure;
+    position: absolute;
+    left: 0;
+    height: 4.5rem;
+    width: 10.5rem;
+}
+
+#player3 {
+    position: absolute;
+    top: 0;
+    margin: 0 auto;
+}
+
+#player4 {
+    position: absolute;
+    right: 0;
+}
+
 #main {
+    padding: 1rem;
+    padding-bottom: 2rem;
+    flex-shrink: 0;
     text-align: center;
+    min-height: 20rem;
+    background-color: #a0a0a0;
 }
 
 #player1 {
@@ -15,14 +55,23 @@
 .card {
     display: block;
     width: 8rem;
-    height: 15rem;
+    height: 13rem;
+    margin: 1rem;
+    background-color: #e7e7e7;
+    text-align: center;
+}
+
+.card-small {
+    display: block;
+    width: 4rem;
+    height: 10rem;
     margin: 1rem;
     background-color: #e7e7e7;
     text-align: center;
 }
 
 .selected {
-    border: 2px solid #0ac6ff;
+    box-shadow: 0px 0px 7px 4px #0ac6ff;
 }
 
 button#play {

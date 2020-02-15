@@ -73,7 +73,6 @@ const spades = buildSuit('Spades');
 const Cards = [...hearts, ...diamonds, ...spades, ...clubs];
 
 
-
 // init game
 const bill = new Player('Bill');
 const kevin = new Player('Kevin');
@@ -98,6 +97,11 @@ const makeCard = (text) => {
     return card;
 }
 const playerDiv = document.querySelector('#player1');
+const playButton = document.querySelector('#play');
+
+
+
+
 player.hand.forEach((card) => {
     playerDiv.prepend(makeCard(card));
 });
