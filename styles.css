@@ -18,17 +18,22 @@ body, html {
     height: 10rem;
 }
 
+.opponent {
+    position: absolute;
+    height: 6rem;
+    width: 10.5rem;
+}
+
 #player2 {
     background-color: azure;
-    position: absolute;
     left: 0;
-    height: 4.5rem;
-    width: 10.5rem;
 }
 
 #player3 {
     position: absolute;
     top: 0;
+    left: 0;
+    right: 0;
     margin: 0 auto;
 }
 

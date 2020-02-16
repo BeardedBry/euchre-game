@@ -22,7 +22,6 @@ var shuffle = function (array) {
 	}
 
 	return array;
-
 };
 
 
@@ -78,7 +77,8 @@ const bill = new Player('Bill');
 const kevin = new Player('Kevin');
 const john = new Player('John');
 const player = new Player('Brian');
-const allPlayers = [bill, kevin, john, player];
+const allPlayers = [player, bill, kevin, john];
+const allOpponents = [bill, kevin, john];
 
 shuffle(Cards);
 
@@ -86,7 +86,7 @@ shuffle(Cards);
 deal(allPlayers, 5);
 
 // draw board
-const makeCard = (text) => { 
+const makeCard = (text) => {
     const card = document.createElement('div');
     card.classList.add('card');
     card.textContent = text;
@@ -96,15 +96,34 @@ const makeCard = (text) => {
     }
     return card;
 }
+
+const makeSmallCard = (text) => {
+    const card = document.createElement('span');
+    card.textContent = text;
+    card.style.display = "block";
+    return card;
+}
+
 const playerDiv = document.querySelector('#player1');
+const player2Div = document.querySelector('#player2');
+const player3Div = document.querySelector('#player3');
+const player4Div = document.querySelector('#player4');
 const playButton = document.querySelector('#play');
 
-
+const opponentDivs = [player2Div, player3Div, player4Div];
 
 
 player.hand.forEach((card) => {
     playerDiv.prepend(makeCard(card));
 });
+
+for(let i = 0; i < allOpponents.length; i++){
+    allOpponents[i].hand.forEach((card)=>{
+        opponentDivs[i].prepend(makeSmallCard(card));
+    })
+}
+
+player2
 
 console.log(player.hand);
 //console.log(Cards);
