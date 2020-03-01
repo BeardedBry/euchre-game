@@ -57,7 +57,7 @@ const randomCard = (cards) => {
 }
 
 const deal = (playersArr, ammount) => {
- // playersArr === [brian, bobby, etc]
+ // playersArr === []
     playersArr.forEach(function(player){
         addToHand(player, randomCard, ammount);    
     });
@@ -67,7 +67,6 @@ const deal = (playersArr, ammount) => {
 class Suit {
     constructor(name){
         this.suit = name;
-        //this.trump = false;
         this.nine = {
             name: 'Nine',
             suit: name,
@@ -112,21 +111,17 @@ class Suit {
 
     // Everything to make a suit trump.
     makeTrump(offSuit){
+        // offSuit === round.Diamonds
         this.getCards().forEach((card)=>{
             card.trump = true;
         })
-        this.rightBower();
-        this.leftBower(offSuit);
+
+        this.jack.value = 16;        
+        offSuit.jack.value = 15;
+        offSuit.jack.trump = true;
     }
 
-    rightBower(){
-        this.jack.value = 16;
-    }
 
-    leftBower(suit){
-        suit.jack.value = 15;
-        suit.jack.trump = true;
-    }
 }
 
 // class Card{
@@ -144,11 +139,13 @@ class Player {
         this.isTurn = false;
     }
 
-    playCard(cardName){
+    playCard(){
 
     }
 }
 
+
+// Controls for a new game round.
 class Round {
     constructor(){
         this.Hearts = new Suit('Hearts');
@@ -166,22 +163,51 @@ class Round {
             ]);
     }
 
-    // reset(){
-    //     Hearts = new Suit('Hearts');
-    //     Diamonds = new Suit('Diamonds');
-    //     Spades = new Suit('Spades');
-    //     Clubs = new Suit('Clubs');
-    // }
+}
+
+class Game {
+    constructor(config){
+        this.players = config.players;
+        //this.teamRed = [config.players[0],config.players[2]];
+        //this.teamBlue = [config.players[1],config.players[3]];
+        this.round = null;
+    }
+
+    startRound(){
+        console.log('New Round');
+        this.round = new Round();
+        console.log('Cards Shuffled');
+        this.round.shuffleCards();
+        
+        console.log('Cards dealt');
+        this.players.forEach((player)=>{
+            for(let i = 0; i < 5; i++){
+                player.hand.push(this.round.shuffled.pop());
+            }
+        });
+        var flipped = this.round.shuffled[this.round.shuffled.length-1];
+        console.log(`Flipped card: ${flipped.name} of ${flipped.suit}` );
+    }
+
+    
 }
 
 
 
-
 // game initilization
-//var Hearts,Diamonds,Spades,Clubs;
+const brian = new Player('Brian');
+const matt = new Player('Matt');
+const beth = new Player('Beth');
+const grace = new Player('Grace');
 
-// New suits
-//GameState.reset();
+const config = {
+    players: [brian,matt,beth,grace],
+
+}
+
+const game = new Game(config);
+
+
 
 
 // const cards = ['Nine','Ten','Jack','Queen','King','Ace'];
