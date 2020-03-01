@@ -25,19 +25,19 @@ var shuffle = function (array) {
 };
 
 
-/**
- * Create cards for a suit
- * @param  {String} suit The suit name.
- * @return {Array}  Array of Card objects of the suit and value.
- * @todo implement it to be this way.
- */
-const buildSuit = (suit) => {
-    const deck = [];
-    for(let i = 0; i < cards.length; i++){
-        deck.push(`${cards[i]}-of-${suit}`);
-    }
-    return deck;
-}
+// /**
+//  * Create cards for a suit
+//  * @param  {String} suit The suit name.
+//  * @return {Array}  Array of Card objects of the suit and value.
+//  * @todo implement it to be this way.
+//  */
+// const buildSuit = (suit) => {
+//     const deck = [];
+//     for(let i = 0; i < cards.length; i++){
+//         deck.push(`${cards[i]}-of-${suit}`);
+//     }
+//     return deck;
+// }
 
 const addToHand = (player, card, ammount) => {
     if(ammount < 1){
@@ -114,13 +114,13 @@ class Suit {
     }
 }
 
-class Card{
-    constructor(suit,value){
-        this.suit = suit.name;
-        this.trump = suit.trump;
-        this.value = value;
-    }
-}
+// class Card{
+//     constructor(suit,value){
+//         this.suit = suit.name;
+//         this.trump = suit.trump;
+//         this.value = value;
+//     }
+// }
 
 class Player {
     constructor(name){
@@ -136,16 +136,25 @@ class Player {
 
 class GameState {
     constructor(){
+    }
 
+    shuffleCards(){
+
+    }
+
+    reset(){
+        Hearts = new Suit('Hearts');
+        Diamonds = new Suit('Diamonds');
+        Spades = new Suit('Spades');
+        Clubs = new Suit('Clubs');
     }
 }
 
 
+
+
 // game initilization
-
-
-
-
+var Hearts,Diamonds,Spades,Clubs;
 
 
 // const cards = ['Nine','Ten','Jack','Queen','King','Ace'];
