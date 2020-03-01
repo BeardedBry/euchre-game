@@ -158,48 +158,5 @@ class GameState {
 
 // player2
 
-
-//MVC
-
-
-// Model
-// handles data, ajax. 
-// cares only about JSON or objects that come from the server.
-// doesn't care about HTML
-
-// Game Controller
-// handles user input and talks between data and view.
-// the mediator, without worrying about implementation details.
-
-
-// View
-// handles the DOM. or any front end. 
-// can attach events but leaves event handling to the controller.
-// Doesn't care about AJAX.
-
-class Model {
-    constructor(){}
-}
-
-
-class GameController {
-    constructor(config, model, view, players){
-        this.view = view;
-        this.model = model;
-        this.players = players; //array
-    }
-
-    initialize() {
-        
-    }
-
-}
-
-
-class View {
-    constructor(){}
-}
-
-
-const game = new GameController(new Model(), new View());
-
+// console.log(player.hand);
+//console.log(Cards);
