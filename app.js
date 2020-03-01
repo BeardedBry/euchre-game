@@ -68,11 +68,56 @@ class Suit {
     constructor(name){
         this.name = name;
         this.trump = false;
+        this.nine = {
+            name: 'Nine',
+            suit: name,
+            value: 9
+        }
+        this.ten = {
+            name: 'Ten',
+            suit: name,
+            value: 10
+        }
+        this.jack = {
+            name: 'Jack',
+            suit: name,
+            value: 11
+        };
+        this.queen = {
+            name: 'Queen',
+            suit: name,
+            value: 12
+        }
+        this.king = {
+            name: 'King',
+            suit: name,
+            value: 13
+        }
+        this.ace = {
+            name: 'Ace',
+            suit: name,
+            value: 14
+        }
+    }
+
+    getCards(){
+        return [this.nine, this.ten, this.jack, this.queen, this.king, this.ace];
+    }
+
+    rightBower(){
+        this.jack.value = 16;
+    }
+
+    leftBower(suit){
+        this.jack.value = 15;
+        this.jack.suit = suit;
     }
 }
+
 class Card{
     constructor(suit,value){
-        this.suit = suit;
+        this.suit = suit.name;
+        this.trump = suit.trump;
         this.value = value;
     }
 }
@@ -94,6 +139,13 @@ class GameState {
 
     }
 }
+
+
+// game initilization
+
+
+
+
 
 
 // const cards = ['Nine','Ten','Jack','Queen','King','Ace'];
@@ -177,29 +229,29 @@ class GameState {
 // can attach events but leaves event handling to the controller.
 // Doesn't care about AJAX.
 
-class Model {
-    constructor(){}
-}
+// class Model {
+//     constructor(){}
+// }
 
 
-class GameController {
-    constructor(config, model, view, players){
-        this.view = view;
-        this.model = model;
-        this.players = players; //array
-    }
+// class GameController {
+//     constructor(config, model, view, players){
+//         this.view = view;
+//         this.model = model;
+//         this.players = players; //array
+//     }
 
-    initialize() {
+//     initialize() {
         
-    }
+//     }
 
-}
-
-
-class View {
-    constructor(){}
-}
+// }
 
 
-const game = new GameController(new Model(), new View());
+// class View {
+//     constructor(){}
+// }
+
+
+// const game = new GameController(new Model(), new View());
 
