@@ -25,6 +25,12 @@ var shuffle = function (array) {
 };
 
 
+/**
+ * Create cards for a suit
+ * @param  {String} suit The suit name.
+ * @return {Array}  Array of Card objects of the suit and value.
+ * @todo implement it to be this way.
+ */
 const buildSuit = (suit) => {
     const deck = [];
     for(let i = 0; i < cards.length; i++){
@@ -57,73 +63,100 @@ const deal = (playersArr, ammount) => {
     });
 }
 
-function Player(name) {
-    this.name = name;
-    this.hand = [];
-}
 
-
-const cards = ['Nine','Ten','Jack','Queen','King','Ace'];
-const hearts = buildSuit('Hearts');
-const diamonds = buildSuit('Diamonds');
-const clubs = buildSuit('Clubs');
-const spades = buildSuit('Spades');
-
-const Cards = [...hearts, ...diamonds, ...spades, ...clubs];
-
-
-// init game
-const bill = new Player('Bill');
-const kevin = new Player('Kevin');
-const john = new Player('John');
-const player = new Player('Brian');
-const allPlayers = [player, bill, kevin, john];
-const allOpponents = [bill, kevin, john];
-
-shuffle(Cards);
-
-// round
-deal(allPlayers, 5);
-
-// draw board
-const makeCard = (text) => {
-    const card = document.createElement('div');
-    card.classList.add('card');
-    card.textContent = text;
-    card.onclick = () => {
-        card.classList.toggle('selected');
-        console.log(card.textContent);
+class Suit {
+    constructor(name){
+        this.name = name;
+        this.trump = false;
     }
-    return card;
+}
+class Card{
+    constructor(suit,value){
+        this.suit = suit;
+        this.value = value;
+    }
 }
 
-const makeSmallCard = (text) => {
-    const card = document.createElement('span');
-    card.textContent = text;
-    card.style.display = "block";
-    return card;
+class Player {
+    constructor(name){
+        this.name = name;
+        this.hand = [];
+        this.isTurn = false;
+    }
+
+    playCard(cardName){
+
+    }
 }
 
-const playerDiv = document.querySelector('#player1');
-const player2Div = document.querySelector('#player2');
-const player3Div = document.querySelector('#player3');
-const player4Div = document.querySelector('#player4');
-const playButton = document.querySelector('#play');
+class GameState {
+    constructor(){
 
-const opponentDivs = [player2Div, player3Div, player4Div];
-
-
-player.hand.forEach((card) => {
-    playerDiv.prepend(makeCard(card));
-});
-
-for(let i = 0; i < allOpponents.length; i++){
-    allOpponents[i].hand.forEach((card)=>{
-        opponentDivs[i].prepend(makeSmallCard(card));
-    })
+    }
 }
 
-player2
 
-console.log(player.hand);
+// const cards = ['Nine','Ten','Jack','Queen','King','Ace'];
+// const hearts = buildSuit('Hearts');
+// const diamonds = buildSuit('Diamonds');
+// const clubs = buildSuit('Clubs');
+// const spades = buildSuit('Spades');
+
+// const Cards = [...hearts, ...diamonds, ...spades, ...clubs];
+
+
+// // init game
+// const bill = new Player('Bill');
+// const kevin = new Player('Kevin');
+// const john = new Player('John');
+// const player = new Player('Brian');
+// const allPlayers = [player, bill, kevin, john];
+// const allOpponents = [bill, kevin, john];
+
+// shuffle(Cards);
+
+// // round
+// deal(allPlayers, 5);
+
+// // draw board
+// const makeCard = (text) => {
+//     const card = document.createElement('div');
+//     card.classList.add('card');
+//     card.textContent = text;
+//     card.onclick = () => {
+//         card.classList.toggle('selected');
+//         console.log(card.textContent);
+//     }
+//     return card;
+// }
+
+// const makeSmallCard = (text) => {
+//     const card = document.createElement('span');
+//     card.textContent = text;
+//     card.style.display = "block";
+//     return card;
+// }
+
+// const playerDiv = document.querySelector('#player1');
+// const player2Div = document.querySelector('#player2');
+// const player3Div = document.querySelector('#player3');
+// const player4Div = document.querySelector('#player4');
+// const playButton = document.querySelector('#play');
+
+// const opponentDivs = [player2Div, player3Div, player4Div];
+
+
+// player.hand.forEach((card) => {
+//     playerDiv.prepend(makeCard(card));
+// });
+
+// for(let i = 0; i < allOpponents.length; i++){
+//     allOpponents[i].hand.forEach((card)=>{
+//         opponentDivs[i].prepend(makeSmallCard(card));
+//     })
+// }
+
+// player2
+
+// console.log(player.hand);
 //console.log(Cards);
