@@ -66,37 +66,43 @@ const deal = (playersArr, ammount) => {
 
 class Suit {
     constructor(name){
-        this.name = name;
-        this.trump = false;
+        this.suit = name;
+        //this.trump = false;
         this.nine = {
             name: 'Nine',
             suit: name,
-            value: 9
+            value: 9,
+            trump: false
         }
         this.ten = {
             name: 'Ten',
             suit: name,
-            value: 10
+            value: 10,
+            trump: false
         }
         this.jack = {
             name: 'Jack',
             suit: name,
-            value: 11
+            value: 11,
+            trump: false
         };
         this.queen = {
             name: 'Queen',
             suit: name,
-            value: 12
+            value: 12,
+            trump: false
         }
         this.king = {
             name: 'King',
             suit: name,
-            value: 13
+            value: 13,
+            trump: false
         }
         this.ace = {
             name: 'Ace',
             suit: name,
-            value: 14
+            value: 14,
+            trump: false
         }
     }
 
@@ -104,13 +110,22 @@ class Suit {
         return [this.nine, this.ten, this.jack, this.queen, this.king, this.ace];
     }
 
+    // Everything to make a suit trump.
+    makeTrump(offSuit){
+        this.getCards().forEach((card)=>{
+            card.trump = true;
+        })
+        this.rightBower();
+        this.leftBower(offSuit);
+    }
+
     rightBower(){
         this.jack.value = 16;
     }
 
     leftBower(suit){
-        this.jack.value = 15;
-        this.jack.suit = suit;
+        suit.jack.value = 15;
+        suit.jack.trump = true;
     }
 }
 
@@ -134,27 +149,39 @@ class Player {
     }
 }
 
-class GameState {
+class Round {
     constructor(){
+        this.Hearts = new Suit('Hearts');
+        this.Diamonds = new Suit('Diamonds');
+        this.Spades = new Suit('Spades');
+        this.Clubs = new Suit('Clubs');
     }
 
     shuffleCards(){
-
+        this.shuffled = shuffle([
+                ...this.Hearts.getCards(),
+                ...this.Diamonds.getCards(),
+                ...this.Spades.getCards(),
+                ...this.Clubs.getCards()
+            ]);
     }
 
-    reset(){
-        Hearts = new Suit('Hearts');
-        Diamonds = new Suit('Diamonds');
-        Spades = new Suit('Spades');
-        Clubs = new Suit('Clubs');
-    }
+    // reset(){
+    //     Hearts = new Suit('Hearts');
+    //     Diamonds = new Suit('Diamonds');
+    //     Spades = new Suit('Spades');
+    //     Clubs = new Suit('Clubs');
+    // }
 }
 
 
 
 
 // game initilization
-var Hearts,Diamonds,Spades,Clubs;
+//var Hearts,Diamonds,Spades,Clubs;
+
+// New suits
+//GameState.reset();
 
 
 // const cards = ['Nine','Ten','Jack','Queen','King','Ace'];
