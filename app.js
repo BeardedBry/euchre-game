@@ -39,29 +39,29 @@ var shuffle = function (array) {
 //     return deck;
 // }
 
-const addToHand = (player, card, ammount) => {
-    if(ammount < 1){
-        return;
-    }
-    var index = Cards.indexOf(card);
-    var chosenCard = Cards.splice(index, 1);
-    player.hand.push(chosenCard);
+// const addToHand = (player, card, ammount) => {
+//     if(ammount < 1){
+//         return;
+//     }
+//     var index = Cards.indexOf(card);
+//     var chosenCard = Cards.splice(index, 1);
+//     player.hand.push(chosenCard);
 
-    return addToHand(player, card, ammount-=1);
-}
+//     return addToHand(player, card, ammount-=1);
+// }
 
-const randomCard = (cards) => {
-    var len = cards.length;
-    var randomIndex = Math.floor(Math.random() * Math.floor(len));
-    return cards[randomIndex]; 
-}
+// const randomCard = (cards) => {
+//     var len = cards.length;
+//     var randomIndex = Math.floor(Math.random() * Math.floor(len));
+//     return cards[randomIndex]; 
+// }
 
-const deal = (playersArr, ammount) => {
- // playersArr === []
-    playersArr.forEach(function(player){
-        addToHand(player, randomCard, ammount);    
-    });
-}
+// const deal = (playersArr, ammount) => {
+//  // playersArr === []
+//     playersArr.forEach(function(player){
+//         addToHand(player, randomCard, ammount);    
+//     });
+// }
 
 
 class Suit {
@@ -139,8 +139,8 @@ class Player {
         this.isTurn = false;
     }
 
-    playCard(){
-
+    playCard(index){
+        return this.hand.splice(index,1);
     }
 }
 
@@ -168,28 +168,66 @@ class Round {
 class Game {
     constructor(config){
         this.players = config.players;
-        //this.teamRed = [config.players[0],config.players[2]];
-        //this.teamBlue = [config.players[1],config.players[3]];
         this.round = null;
+        this.turn = null;
+        this.board = null;
+        this.state = 'order';
     }
 
     startRound(){
+        this.board = new Board();
         console.log('New Round');
         this.round = new Round();
         console.log('Cards Shuffled');
         this.round.shuffleCards();
         
-        console.log('Cards dealt');
+        this.players[0].isTurn = true;
+        console.log(this.players[0].name + ' is the dealer');
+        // Deal cards
         this.players.forEach((player)=>{
             for(let i = 0; i < 5; i++){
                 player.hand.push(this.round.shuffled.pop());
             }
         });
+        console.log('Cards dealt');
+        // flip over card.
         var flipped = this.round.shuffled[this.round.shuffled.length-1];
         console.log(`Flipped card: ${flipped.name} of ${flipped.suit}` );
+        // next turn
+        this.nextPlayerTurn();
+        console.log(`current player turn: ${this.getCurrentPlayer().name}`);
+    }
+
+    nextPlayerTurn(){
+        var currentTurn = this.players.findIndex((player) => player.isTurn === true);
+        this.players[currentTurn].isTurn = false;
+        if(currentTurn < 3){
+            this.players[currentTurn+1].isTurn = true;
+        }else{
+            this.players[0].isTurn = true;
+        }
+    }
+
+    getCurrentPlayer(){
+        return this.players.find((player) => player.isTurn === true);
+    }
+}
+
+class Board {
+    constructor(){
+        this.activeCards = [];
+    }
+
+    recieveCard(card){
+        this.activeCards.push(card);
+    }
+
+    checkTrick(){
+
     }
 
     
+
 }
 
 
@@ -201,8 +239,7 @@ const beth = new Player('Beth');
 const grace = new Player('Grace');
 
 const config = {
-    players: [brian,matt,beth,grace],
-
+    players: [brian,matt,beth,grace]
 }
 
 const game = new Game(config);
@@ -210,27 +247,14 @@ const game = new Game(config);
 
 
 
-// const cards = ['Nine','Ten','Jack','Queen','King','Ace'];
-// const hearts = buildSuit('Hearts');
-// const diamonds = buildSuit('Diamonds');
-// const clubs = buildSuit('Clubs');
-// const spades = buildSuit('Spades');
-
-// const Cards = [...hearts, ...diamonds, ...spades, ...clubs];
 
 
-// // init game
-// const bill = new Player('Bill');
-// const kevin = new Player('Kevin');
-// const john = new Player('John');
-// const player = new Player('Brian');
-// const allPlayers = [player, bill, kevin, john];
-// const allOpponents = [bill, kevin, john];
+// helpful debug visuals
 
-// shuffle(Cards);
 
-// // round
-// deal(allPlayers, 5);
+
+
+
 
 // // draw board
 // const makeCard = (text) => {
