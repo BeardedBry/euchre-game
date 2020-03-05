@@ -71,37 +71,43 @@ class Suit {
             name: 'Nine',
             suit: name,
             value: 9,
-            trump: false
+            trump: false,
+            ownerName: null
         }
         this.ten = {
             name: 'Ten',
             suit: name,
             value: 10,
-            trump: false
+            trump: false,
+            ownerName: null
         }
         this.jack = {
             name: 'Jack',
             suit: name,
             value: 11,
-            trump: false
+            trump: false,
+            ownerName: null
         };
         this.queen = {
             name: 'Queen',
             suit: name,
             value: 12,
-            trump: false
+            trump: false,
+            ownerName: null
         }
         this.king = {
             name: 'King',
             suit: name,
             value: 13,
-            trump: false
+            trump: false,
+            ownerName: null
         }
         this.ace = {
             name: 'Ace',
             suit: name,
             value: 14,
-            trump: false
+            trump: false,
+            ownerName: null
         }
     }
 
@@ -110,15 +116,31 @@ class Suit {
     }
 
     // Everything to make a suit trump.
-    makeTrump(offSuit){
+    makeTrump(){
         // offSuit === round.Diamonds
+        let offSuit;
+        switch (this.suit){
+            case 'Diamonds':
+                offSuit = 'Hearts'
+                break;
+            case 'Hearts':
+                offSuit = 'Diamonds';
+                break;
+            case 'Spades':
+                offSuit = 'Clubs';
+                break;
+            case 'Clubs':
+                offSuit = 'Spades';
+                break;
+        }
+
         this.getCards().forEach((card)=>{
             card.trump = true;
         })
+        this.jack.value = 16;
 
-        this.jack.value = 16;        
-        offSuit.jack.value = 15;
-        offSuit.jack.trump = true;
+        game.round[offSuit].jack.value = 15;
+        game.round[offSuit].jack.trump = true;
     }
 
 
@@ -152,6 +174,7 @@ class Round {
         this.Diamonds = new Suit('Diamonds');
         this.Spades = new Suit('Spades');
         this.Clubs = new Suit('Clubs');
+        this.flippedCard = null;
     }
 
     shuffleCards(){
@@ -163,6 +186,10 @@ class Round {
             ]);
     }
 
+    setTrump(suit){
+        this[suit].makeTrump();
+    }
+
 }
 
 class Game {
@@ -172,6 +199,7 @@ class Game {
         this.turn = null;
         this.board = null;
         this.state = 'order';
+        this.dealer = null;
     }
 
     startRound(){
@@ -181,21 +209,25 @@ class Game {
         console.log('Cards Shuffled');
         this.round.shuffleCards();
         
-        this.players[0].isTurn = true;
-        console.log(this.players[0].name + ' is the dealer');
+        var startingPlayer = shuffle(this.players)[0];
+        startingPlayer.isTurn = true;
+        this.dealer = startingPlayer;
+        console.log(startingPlayer.name + ' is the dealer');
         // Deal cards
         this.players.forEach((player)=>{
             for(let i = 0; i < 5; i++){
-                player.hand.push(this.round.shuffled.pop());
+                let currentCard = this.round.shuffled.pop();
+                currentCard.ownerName = player.name;
+                player.hand.push(currentCard);
             }
         });
         console.log('Cards dealt');
         // flip over card.
-        var flipped = this.round.shuffled[this.round.shuffled.length-1];
-        console.log(`Flipped card: ${flipped.name} of ${flipped.suit}` );
+        this.round.flippedCard = this.round.shuffled[this.round.shuffled.length-1];
+        console.log(`Flipped card: ${this.round.flippedCard.name} of ${this.round.flippedCard.suit}` );
         // next turn
         this.nextPlayerTurn();
-        console.log(`current player turn: ${this.getCurrentPlayer().name}`);
+        console.log(`current player turn: ${this.getPlayerTurn().name}`);
     }
 
     nextPlayerTurn(){
@@ -208,7 +240,12 @@ class Game {
         }
     }
 
-    getCurrentPlayer(){
+    setPlayerTurn(player){
+        this.getPlayerTurn().isTurn = false;
+        player.isTurn = true;
+    }
+
+    getPlayerTurn(){
         return this.players.find((player) => player.isTurn === true);
     }
 }
@@ -219,18 +256,72 @@ class Board {
     }
 
     recieveCard(card){
-        this.activeCards.push(card);
+        this.activeCards.push(...card);
     }
 
     checkTrick(){
-
+        const startingSuit = this.activeCards[0].suit;
+        const followedSuitCards = this.activeCards.filter((card) => card.suit === startingSuit);
+        const trumpCards = this.activeCards.filter(card => card.trump === true);
+        if(trumpCards.length === 1){
+            return trumpCards[0];
+        }
+        if(trumpCards.length > 1){
+            return trumpCards.sort( (a,b) => b.value - a.value)[0];
+        }
+        return followedSuitCards.sort((a,b) => b.value - a.value)[0];
     }
-
-    
 
 }
 
 
+
+
+//////////////////////////
+/////// Game Test ///////
+
+function rando(){
+    return Math.round(Math.random());
+}
+
+async function testRound(trump){
+
+    var cardChosen = false;
+
+    const pickUpCard = (player) => {
+        var flipped = game.round.flippedCard.suit;
+        console.log(`Player ${player.name} says pick up the card.`)
+        game.round.setTrump(flipped);
+        cardChosen = true;
+        console.log(`trump is now ${flipped}`);
+    }
+
+    game.startRound();
+    
+   function chooseCard(){
+        var currentPlayer = game.getPlayerTurn();
+        if(rando()){
+            pickUpCard(currentPlayer)
+        }else { 
+            console.log(`${currentPlayer.name} passes`); 
+            game.nextPlayerTurn();
+            setTimeout(chooseCard(), 1000);
+        }
+
+    }
+
+    function playCards(){
+        game.nextPlayerTurn();
+        console.log(`Play starts with ${game.getPlayerTurn().name}`);
+    }
+
+    await setTimeout(chooseCard(), 1000);
+    game.setPlayerTurn(game.dealer);
+    await playCards();
+
+}
+
+/////////////////////////
 
 // game initilization
 const brian = new Player('Brian');
