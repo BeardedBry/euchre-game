@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Euchre</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
     <div id="game">
@@ -22,5 +23,20 @@
         </div>
     </div>
     <script src="app.js"></script>
+    <script>
+            var socket = io('http://localhost');
+            socket.on('news', function (data) {
+                console.log(data);
+                socket.emit('my other event', { my: 'data' });
+            });
+
+            function playCard(){
+                socket.emit('playCard', {
+                    id: socket.id,
+                });
+            }
+
+            document.querySelector('#play').addEventListener('click', playCard);
+     </script>
 </body>
 </html>
