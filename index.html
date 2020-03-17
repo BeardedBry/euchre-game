@@ -9,16 +9,18 @@
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <div id="game">
-        <div id="board">
-            <div id="player2" class="opponent"></div>
-            <div id="player3" class="opponent"></div>
-            <div id="player4" class="opponent"></div>
-        </div>
+    <div id="lobby">
         <div id="main">
-            <div id="player1"></div>
+            <h1>Euchre Game Lobby</h1>
             <div class="controls">
-                    <button id="play">Play Card</button>
+                    <div class="lobby">
+                        <button class="joinGame" id="lobby1">Lobby 1</button>
+                        <p>Players: <span class="players">0/4</span></p>
+                    </div>
+                    <div class="lobby">
+                        <button class="joinGame" id="lobby2">Lobby 2</button>
+                        <p>Players: <span class="players">0/4</span></p>
+                    </div>
             </div>
         </div>
     </div>
@@ -36,7 +38,14 @@
                 });
             }
 
-            document.querySelector('#play').addEventListener('click', playCard);
+            var lobbies = document.querySelectorAll('.joinGame');
+            lobbies.forEach(function(lobby){
+                lobby.addEventListener('click', function(e){
+                    var lobbyId = e.target.id;
+                });
+            });
+
+            document.querySelector('.play').addEventListener('click', playCard);
      </script>
 </body>
 </html>
